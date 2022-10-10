@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">    
+<head>
+  <title>Bootstrap 5 Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<style>
+body{color: #000;overflow-x: hidden;height: 100%;background-repeat: no-repeat;background-size: 100% 100%}.card{padding: 30px 40px;margin-top: 60px;margin-bottom: 60px;border: none !important;box-shadow: 0 6px 12px 0 rgba(0,0,0,0.2)}.blue-text{color: #00BCD4}.form-control-label{margin-bottom: 0}input, textarea, button{padding: 8px 15px;border-radius: 5px !important;margin: 5px 0px;box-sizing: border-box;border: 1px solid #ccc;font-size: 18px !important;font-weight: 300}input:focus, textarea:focus{-moz-box-shadow: none !important;-webkit-box-shadow: none !important;box-shadow: none !important;border: 1px solid #00BCD4;outline-width: 0;font-weight: 400}.btn-block{text-transform: uppercase;font-size: 15px !important;font-weight: 400;height: 43px;cursor: pointer}.btn-block:hover{color: #fff !important}button:focus{-moz-box-shadow: none !important;-webkit-box-shadow: none !important;box-shadow: none !important;outline-width: 0}
+</style>
+<body>
+<div class="card">
+<form th:action="@{/logout}" method="post">
+    <input type="submit" value="Sign Out"/>
+</form>
+	<div class="container my-3">
+	    <div class="row">
+	    <a th:href="@{/}">Volver al menu principal</a>
+	        <div class="col-md-8 mx-auto">
+	            <h2>Usuarios</h2>
+				<form th:action="@{/admin/save-usuario}" th:object="${usuario}" method="post">
+					 <input type="text" class="form-control" hidden th:field="*{id}">
+				    <div class="form-row">
+				        <div class="col-md-6 form-group">
+				            <label>Username</label>
+				            <input type="text" class="form-control" th:field="*{user_name}" required>
+				        </div>
+				        <div class="col-md-6 form-group">
+				            <label>Password</label>
+				            <input type="text" class="form-control" th:field="*{password}" required>
+				        </div>
+				        <div class="col-md-6 form-group">
+				            <label>Tipo</label>
+				            <select class="form-control" th:field="*{tipo}" required>
+				                <option value="">Seleccionar</option>
+				                <option value="ADMIN">ADMIN</option>
+				                <option value="EMPLEADO">EMPLEADO</option>
+				            </select>
+				        </div>
+				    </div>
+				    <button type="submit" class="btn btn-primary btn-block mt-3">Guardar</button>
+				</form>
+				<br></br>
+				<div th:switch="${usuarios}">
+				    <h2 th:case="null">No hay usuarios!</h2>
+				        <div th:case="*">
+				            <table  class="table">
+				                <thead>
+				                    <tr>
+				                        <th scope="col">Username</th>
+				                        <th scope="col">Password</th>
+				                        <th scope="col">Tipo</th>
+				                        <th scope="col">Editar</th>
+				                        <th scope="col">Borrar</th>
+				                    </tr>
+				                </thead>
+				                <tbody>
+				                <tr th:each="usuario : ${usuarios}" scope="row">
+				                    <td th:text="${usuario.user_name}"></td>
+				                    <td >***</td>
+				                    <td><a th:href="@{/edit/usuario/admin/{id}(id=${usuario.id})}">Editar</a></td>
+				                    <td><a th:href="@{/delete/usuario/admin/{id}(id=${usuario.id})}">Borrar</a></td>
+				                </tr>
+				            </tbody>
+				        </table>
+				    </div>      
+				</div>
+	  		</div>
+	  	</div>
+	</div>
+</body>
+</html>
